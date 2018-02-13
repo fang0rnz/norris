@@ -36,7 +36,8 @@ class App extends Component {
 					{this.state.joke}
 				</header>
 				{this.state.categories.map((category, i) => <p onClick={() => this.printJoke(category)} key={i}>{category}</p>)}
-      </div>
+			</div>
+		
     );
   }
 }
