@@ -30,7 +30,18 @@ class Landing extends React.Component {
 	}
 
 	renderCategories = () => this.props.categories.map((category) => {
-		return <QuoteContainer/>
+		
+		const data = this.props.jokes[category]
+		let image = ''
+		if (data)
+		image = data.icon_url || ''
+		return (
+			<Quote 
+				image={image} 
+				quote='asdasdas' 
+				category={category} 
+			/>
+		)
 	})
 
 	render() {
@@ -54,7 +65,8 @@ class Landing extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    categories: state.Reducer.categories
+		categories: state.Reducer.categories,
+		jokes: state.Reducer.jokes
   }
 }
 
