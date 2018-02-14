@@ -21,7 +21,7 @@ const Reducer = (state = initialReducerState, action) => {
 
 			const newJokes = jokes.reduce((result, item, index, array) => {
 
-				result[item.data.category] = item //a, b, c
+				result[item.data.category] = item.data //a, b, c
 
 				return result
 			}, {}) //watch out the empty {}, which is passed as "result"
