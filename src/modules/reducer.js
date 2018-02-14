@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
 
 export const initialReducerState = {
-	joke: '',
+	jokes: {},
 	categories: []
 }
 
@@ -15,7 +15,13 @@ const Reducer = (state = initialReducerState, action) => {
 		}
 
 		case 'SET_JOKE': {
-			return { ...state, joke: action.joke }
+			const jokes = { ...state.jokes }
+			const newJokes = {
+				...jokes,
+				[action.category]: action.joke
+			}
+
+			return { ...state, newJokes }
 		}
 
 		default: {
