@@ -25,21 +25,21 @@ const style = {
 
 class Landing extends React.Component {
 
-	componentDidMount(){
+	componentDidMount() {
 		this.props.setCategories();
 	}
 
 	renderCategories = () => this.props.categories.map((category) => {
-		
+
 		const data = this.props.jokes[category]
 		let image = ''
 		if (data)
-		image = data.icon_url || ''
+			image = data.icon_url
 		return (
-			<Quote 
-				image={image} 
-				quote='asdasdas' 
-				category={category} 
+			<Quote
+				image={image}
+				quote='asdasdas'
+				category={category}
 			/>
 		)
 	})
@@ -64,18 +64,18 @@ class Landing extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return {
+	return {
 		categories: state.Reducer.categories,
 		jokes: state.Reducer.jokes
-  }
+	}
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    setCategories: () => {
-      dispatch(Action.setCategories())
-    }
-  }
+	return {
+		setCategories: () => {
+			dispatch(Action.setCategories())
+		}
+	}
 }
 
 
