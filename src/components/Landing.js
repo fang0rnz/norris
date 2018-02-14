@@ -41,7 +41,7 @@ class Landing extends React.Component {
 		return (
 			<Quote
 				image={image}
-				quote={}
+				quote={quote}
 				category={category}
 			/>
 		)
