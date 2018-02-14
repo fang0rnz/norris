@@ -33,12 +33,15 @@ class Landing extends React.Component {
 
 		const data = this.props.jokes[category]
 		let image = ''
-		if (data)
+		let quote = ''
+		if (data) {
 			image = data.icon_url
+			quote = data.value
+		}
 		return (
 			<Quote
 				image={image}
-				quote='asdasdas'
+				quote={}
 				category={category}
 			/>
 		)
