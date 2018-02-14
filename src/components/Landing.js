@@ -5,6 +5,7 @@ import {
 } from 'semantic-ui-react'
 import Quote from './Quote';
 
+import * as Action from '../actions/actions'
 
 const style = {
 	h1: {
@@ -24,9 +25,13 @@ const style = {
 
 class Landing extends React.Component {
 
-	componentDidMount() {
-
+	componentDidMount(){
+		this.props.setCategories();
 	}
+
+	renderCategories = () => this.props.categories.map((category) => {
+		return <QuoteContainer/>
+	})
 
 	render() {
 		return (
@@ -39,7 +44,7 @@ class Landing extends React.Component {
 				/>
 				<Container>
 					<Item.Group divided>
-						<Quote image='asd' quote='asdasdas' category='DONTKNOW' />
+						{this.renderCategories()}
 					</Item.Group>
 				</Container>
 			</React.Fragment>
@@ -47,6 +52,19 @@ class Landing extends React.Component {
 	}
 }
 
+const mapStateToProps = (state, ownProps) => {
+  return {
+    categories: state.Reducer.categories
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    setCategories: () => {
+      dispatch(Action.setCategories())
+    }
+  }
+}
 
 
-export default Landing
+export default connect(mapStateToProps, mapDispatchToProps)(Landing)

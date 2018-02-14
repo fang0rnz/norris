@@ -11,6 +11,7 @@ const Reducer = (state = initialReducerState, action) => {
 
 	switch (action.type) {
 		case 'SET_CATEGORIES': {
+			debugger;
 			return { ...state, categories: action.categories }
 		}
 
