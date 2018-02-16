@@ -47,7 +47,7 @@ class Landing extends React.Component {
 			let isLoading = this.props.jokeLoading(category) || false
 			quote = data.joke.value
 			const newJoke = () => this.props.newJoke(category)
-			const image = () => 'https://source.unsplash.com/200x120/?' + category + '&' + JSON.stringify(new Date());
+			const image = () => 'https://source.unsplash.com/200x120/?' + category;
 			return (
 				<Quote
 					image={image()}
