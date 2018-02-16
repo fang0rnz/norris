@@ -1,15 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-	Button, Container, Grid, Header, Icon, Image, Item, Label, Menu, Segment, Step, Table,
+	Button, Container, Grid, Header, Icon, Image, Item, Label, Menu, Step, Table, Segment, Dimmer, Loader
 } from 'semantic-ui-react'
-import Quote from './Quote';
+import Masonry from 'react-masonry-component'
+import Quote from './Quote'
 
 import * as Action from '../actions/actions'
 
 const style = {
 	h1: {
-		marginTop: '3em',
+		marginTop: '1em',
 	},
 	h2: {
 		margin: '4em 0em 2em',
@@ -21,8 +22,18 @@ const style = {
 	last: {
 		marginBottom: '300px',
 	},
+	chuckImage: {
+		width: '100%',
+		paddingRight: '15px'
+	},
+	Card: {
+		width: '25%'
+	}
 }
 
+const masonryOptions = {
+	gutter: 15
+}
 class Landing extends React.Component {
 
 	componentDidMount() {
@@ -34,32 +45,63 @@ class Landing extends React.Component {
 		const data = this.props.jokes[category]
 		let image = ''
 		let quote = ''
+		let isLoading = this.props.jokeLoading(category)
+		console.log(isLoading)
 		if (data) {
-			image = data.icon_url
-			quote = data.value
+			quote = data.joke.value
+			return (
+				<Quote
+					key={category}
+					style={style.Card}
+					quote={quote}
+					category={category}
+					isLoading={isLoading}
+				/>
+			)
 		}
-		return (
-			<Quote
-				image={image}
-				quote={quote}
-				category={category}
-			/>
-		)
 	})
 
 	render() {
 		return (
 			<React.Fragment>
-				<Header
-					as='h1'
-					content='Norrisnator 2000'
-					style={style.h1}
-					textAlign='center'
-				/>
+				<style>{`
+					.brand {
+						padding: 30px 0;
+						margin: 0 auto;
+						text-align: center;
+						font-size: 40px;
+					}
+					.brand span:first-child {
+						font-weight: 600;
+					}
+					.brand span:nth-child(2) {
+						color: #999;
+					}
+					.brand span:last-child {
+						color: #df5772;
+					}
+				`}</style>
+				<div className='brand'>
+					<span>Norris</span>
+					<span>nator </span> 
+					<span>2000</span>
+				</div>
 				<Container>
-					<Item.Group divided>
-						{this.renderCategories()}
-					</Item.Group>
+					<img src='chuck.png' style={style.chuckImage}/>
+					<div>
+						{
+							this.props.loading ?
+							<Dimmer active inverted>
+								<Loader inverted>Loading</Loader>quote
+							</Dimmer>
+							:
+							<Masonry
+								options={masonryOptions}
+							>
+								{this.renderCategories()}
+							</Masonry>
+						}
+					</div>
 				</Container>
 			</React.Fragment>
 		)
@@ -69,7 +111,9 @@ class Landing extends React.Component {
 const mapStateToProps = (state, ownProps) => {
 	return {
 		categories: state.Reducer.categories,
-		jokes: state.Reducer.jokes
+		jokes: state.Reducer.jokes,
+		loading: state.Reducer.loading,
+		jokeLoading: (category) => state.Reducer.jokes[category].loading
 	}
 }
 

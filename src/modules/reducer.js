@@ -3,7 +3,8 @@ import { routerReducer } from 'react-router-redux'
 
 export const initialReducerState = {
 	jokes: {},
-	categories: []
+	categories: [],
+	loading: true
 }
 
 const Reducer = (state = initialReducerState, action) => {
@@ -11,7 +12,6 @@ const Reducer = (state = initialReducerState, action) => {
 
 	switch (action.type) {
 		case 'SET_CATEGORIES': {
-			debugger;
 			return { ...state, categories: action.categories }
 		}
 
@@ -21,7 +21,10 @@ const Reducer = (state = initialReducerState, action) => {
 
 			const newJokes = jokes.reduce((result, item, index, array) => {
 
-				result[item.data.category] = item.data //a, b, c
+				result[item.data.category] = {
+					joke: item.data,
+					isLoading: false
+				}
 
 				return result
 			}, {}) //watch out the empty {}, which is passed as "result"
@@ -33,10 +36,26 @@ const Reducer = (state = initialReducerState, action) => {
 			const jokes = { ...state.jokes }
 			const newJokes = {
 				...jokes,
-				[action.category]: action.joke
+				[action.category]: {
+					category: action.joke,
+					isLoading: false
+				}
 			}
 
 			return { ...state, newJokes }
+		}
+
+		case 'TOGGLE_LOADING': {
+			return {...state, loading: !state.loading}
+		}
+
+		case 'TOGGLE_LOADING_JOKE': {
+			return {
+				...state,
+				[action.category]: {
+					loading: true
+				}
+			}
 		}
 
 		default: {
