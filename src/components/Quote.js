@@ -17,8 +17,20 @@ class Quote extends React.PureComponent {
 	render() {
 		const { quote, category } = this.props
 		return (
-			<Card style={styles.Card} fluid>
-
+			<Card className="card-joke" style={styles.Card} fluid>
+				<style>{`
+					@media (max-width: 768px) {
+						.card-joke {
+							width: 100% !important;
+						}
+					}
+					@media (min-width: 769px) and (max-width: 999px) {
+						.card-joke {
+							width: calc(50% - 15px) !important;
+						}
+					}
+				`}
+				</style>
 				<React.Fragment>
 					<Image style={styles.CardImage} src={this.props.image} />
 					<Card.Content>
