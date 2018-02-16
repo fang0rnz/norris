@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Image, Button, Icon, Dimmer, Loader } from 'semantic-ui-react'
+import { Card, Image, Button, Dimmer, Loader } from 'semantic-ui-react'
 
 const styles = {
 	Card: {
@@ -15,32 +15,34 @@ const styles = {
 
 class Quote extends React.PureComponent {
 	render() {
-		const { image, quote, category } = this.props
+		const { quote, category } = this.props
 		return (
 			<Card style={styles.Card} fluid>
-				{
-					this.props.isLoading ?
-					<Dimmer active inverted>
-						<Loader inverted>Loading</Loader>
-					</Dimmer>
-					:
-					<React.Fragment>
-						<Image style={styles.CardImage} src={'https://source.unsplash.com/200x120/?' + category}/>
-						<Card.Content>
-							<Card.Header>
-								{category}
-							</Card.Header>
+
+				<React.Fragment>
+					<Image style={styles.CardImage} src={this.props.image} />
+					<Card.Content>
+						<Card.Header>
+							{category}
+						</Card.Header>
+						{
+							this.props.isLoading ?
+							<Dimmer active inverted>
+								<Loader inverted>Loading</Loader>
+							</Dimmer>
+							:
 							<Card.Description>
-							{quote}
+								{quote}
 							</Card.Description>
-						</Card.Content>
-						<Card.Content extra>
-							<div className='ui buttons'>
-								<Button basic color='green'>New quote</Button>
-							</div>
-						</Card.Content>
-					</React.Fragment>
-				}
+						}
+					</Card.Content>
+					<Card.Content extra>
+						<div className='ui buttons'>
+							<Button onClick={() => this.props.newJoke()} basic color='green'>New quote</Button>
+						</div>
+					</Card.Content>
+				</React.Fragment>
+
 			</Card>
 		)
 	}

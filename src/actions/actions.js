@@ -42,14 +42,9 @@ export function setJoke(category) {
 		})
 		
 		const joke = await getJoke(category)
-
 		dispatch({
 			type: SET_JOKE,
-			category
-		})
-
-		dispatch({
-			type: TOGGLE_LOADING_JOKE,
+			joke,
 			category
 		})
 	}

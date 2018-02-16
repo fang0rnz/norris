@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-	Button, Container, Grid, Header, Icon, Image, Item, Label, Menu, Step, Table, Segment, Dimmer, Loader
+	Container, Dimmer, Loader
 } from 'semantic-ui-react'
 import Masonry from 'react-masonry-component'
 import Quote from './Quote'
@@ -41,16 +41,17 @@ class Landing extends React.Component {
 	}
 
 	renderCategories = () => this.props.categories.map((category) => {
-
 		const data = this.props.jokes[category]
-		let image = ''
 		let quote = ''
-		let isLoading = this.props.jokeLoading(category)
-		console.log(isLoading)
 		if (data) {
+			let isLoading = this.props.jokeLoading(category) || false
 			quote = data.joke.value
+			const newJoke = () => this.props.newJoke(category)
+			const image = () => 'https://source.unsplash.com/200x120/?' + category + '&' + JSON.stringify(new Date());
 			return (
 				<Quote
+					image={image()}
+					newJoke={newJoke}
 					key={category}
 					style={style.Card}
 					quote={quote}
@@ -59,6 +60,7 @@ class Landing extends React.Component {
 				/>
 			)
 		}
+		return null
 	})
 
 	render() {
@@ -83,23 +85,23 @@ class Landing extends React.Component {
 				`}</style>
 				<div className='brand'>
 					<span>Norris</span>
-					<span>nator </span> 
+					<span>nator </span>
 					<span>2000</span>
 				</div>
 				<Container>
-					<img src='chuck.png' style={style.chuckImage}/>
+					<img src='chuck.png' style={style.chuckImage} />
 					<div>
 						{
 							this.props.loading ?
-							<Dimmer active inverted>
-								<Loader inverted>Loading</Loader>quote
+								<Dimmer active inverted>
+									<Loader inverted>Loading</Loader>quote
 							</Dimmer>
-							:
-							<Masonry
-								options={masonryOptions}
-							>
-								{this.renderCategories()}
-							</Masonry>
+								:
+								<Masonry
+									options={masonryOptions}
+								>
+									{this.renderCategories()}
+								</Masonry>
 						}
 					</div>
 				</Container>
@@ -119,6 +121,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
+		newJoke: (category) => {
+			dispatch(Action.setJoke(category))
+		},
 		setCategories: () => {
 			dispatch(Action.setCategories())
 		}

@@ -23,7 +23,7 @@ const Reducer = (state = initialReducerState, action) => {
 
 				result[item.data.category] = {
 					joke: item.data,
-					isLoading: false
+					loading: false
 				}
 
 				return result
@@ -33,28 +33,34 @@ const Reducer = (state = initialReducerState, action) => {
 		}
 
 		case 'SET_JOKE': {
+
 			const jokes = { ...state.jokes }
 			const newJokes = {
 				...jokes,
 				[action.category]: {
-					category: action.joke,
+					joke: action.joke.data,
 					isLoading: false
 				}
 			}
-
-			return { ...state, newJokes }
+			return { ...state, jokes: newJokes }
 		}
 
 		case 'TOGGLE_LOADING': {
-			return {...state, loading: !state.loading}
+			return { ...state, loading: !state.loading }
 		}
 
 		case 'TOGGLE_LOADING_JOKE': {
+			const jokes = { ...state.jokes }
+			const newJokes = {
+				...jokes,
+				[action.category]: {
+					loading: true,
+					joke: ''
+				}
+			}
 			return {
 				...state,
-				[action.category]: {
-					loading: true
-				}
+				jokes: newJokes
 			}
 		}
 
