@@ -13,18 +13,18 @@ export function setCategories() {
 
 		dispatch({
 			type: SET_CATEGORIES,
-			categories 
+			categories
 		})
-		
+
 		const jokeRequests = categories.map(category => {
 			return getJoke(category)
 		})
-		
+
 		const jokes = await Promise.all(jokeRequests)
-		
+
 		dispatch({
 			type: SET_JOKES,
-			jokes 
+			jokes
 		})
 
 		dispatch({
@@ -40,7 +40,7 @@ export function setJoke(category) {
 			type: TOGGLE_LOADING_JOKE,
 			category
 		})
-		
+
 		const joke = await getJoke(category)
 		dispatch({
 			type: SET_JOKE,
